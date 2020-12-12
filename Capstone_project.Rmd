@@ -1,0 +1,105 @@
+---
+title: "Capstone"
+author: "David Granadier"
+date: "12/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#library(limma)
+#library(Glimma)
+#library(edgeR)
+devtools::install_github("jimhester/fstrings")
+dir <- "/Users/dgranadi/Desktop/tfcb_2020/"
+
+```
+
+```{r}
+
+df<- read_csv("Testing.csv")
+#df 
+df_mean<-select(df, -pad) %>%
+  group_by(clin_diag) %>%
+  summarize_all(.funs = c(mean = "mean")) %>%
+  print()
+
+
+
+```
+
+
+```{r}
+#Hepatocellular-Intrahepatic_cholangiocarcinoma <- df("Hepatocellular carcinoma" - "Intrahepatic cholangiocarcinoma")
+df_only3<-df_mean %>%
+  slice(3 , 5 , 6) %>%
+  print()
+ 
+```
+
+
+
+```{r}
+
+DPA_vs_HC <- (df_only3[1, -1] / df_only3[2, -1]) %>%
+  print()
+marker_DPA_vs_HC <- DPA_vs_HC[max.col(DPA_vs_HC)]
+print(marker_DPA_vs_HC)
+
+
+```
+
+###The marker most overexpressed in Ductal Pancreatic Adenocarcinoma relative to Hepatocellular Carcinoma is ca125 and it is expressed 7.94 times higher
+
+```{r}
+#Using the inverse of the DPA vs HC dataframe, find the marker most overexpressed in HC relative to DPA
+HC_vs_DPA <- (DPA_vs_HC ^-1 ) %>%
+  print()
+marker_HC_vs_DPA <- HC_vs_DPA[max.col(HC_vs_DPA)]
+print(marker_HC_vs_DPA)
+```
+
+###The marker most overexpressed in Hepatocellular Carcinoma relative to Ductal Pancreatic Adenocarcinoma is cd56 and it is expressed 3.83 times higher
+
+
+```{r}
+DPA_vs_IC <- (df_only3[1, -1] / df_only3[3, -1]) %>%
+  print()
+marker_DPA_vs_IC <- DPA_vs_IC[max.col(DPA_vs_IC)]
+print(marker_DPA_vs_IC)
+
+```
+
+###The marker most overexpressed in Ductal Pancreatic Adenocarcinoma relative to Intrahepatic Cholangiocarcinoma is muc2 and it is expressed 4.06 times higher
+
+```{r}
+#Using the inverse of the DPA vs IC dataframe, find the marker most overexpressed in IC relative to DPA
+IC_vs_DPA <- (DPA_vs_IC ^-1 ) %>%
+  print()
+marker_IC_vs_DPA <- IC_vs_DPA[max.col(IC_vs_DPA)]
+print(marker_IC_vs_DPA)
+```
+
+###The marker most overexpressed in Intrahepatic Cholangiocarcinoma relative to Ductal Pancreatic Adenocarcinoma is cd56 and it is expressed 10.4 times higher
+
+
+```{r}
+IC_vs_HC <- (df_only3[3, -1] / df_only3[2, -1]) %>%
+  print()
+marker_IC_vs_HC <- IC_vs_HC[max.col(IC_vs_HC)]
+print(marker_IC_vs_HC)
+```
+
+###The marker most overexpressed in Intrahepatic Cholangiocarcinoma relative to Hepatic Carcinoma is ck7 and it is expressed 7.73 times higher
+
+
+```{r}
+#Using the inverse of the DPA vs IC dataframe, find the marker most overexpressed in IC relative to DPA
+HC_vs_IC <- (IC_vs_HC ^-1 ) %>%
+  print()
+marker_HC_vs_IC <- HC_vs_IC[max.col(HC_vs_IC)]
+print(marker_HC_vs_IC)
+```
+
+###The marker most overexpressed in Hepatic Carcinoma relative to Intragepatic Cholangiocarcinoma is cd10 and it is expressed 1.42 times higher
