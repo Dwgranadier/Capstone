@@ -2,7 +2,7 @@
 ## This document describes my Capstone project organization and workflow
 
 Organization: Datasets (described below) can be found in the 'data' folder'. The 'misc' folder contains scratch files that I used throughout but do not contain anything to be graded
-The answer to the below questions are in Capstone_project.Rmd and TCFB_2020.ipynb
+The answer to the below questions are in Capstone_project_FINAL_.Rmd and TCFB_2020.ipynb found in the code folder.
 
 Choice of datasets: I chose the publication describing Immunohistochemical typing of adenocarcinomas 
 [Fernandez Moro, et al.](https://datadryad.org/stash/dataset/doi:10.5061/dryad.g8h71)
@@ -15,6 +15,8 @@ I did not include the downloaded raw data in my github but do include the cleane
 
 For the clinical data, I used the raw clinical data found in the DRYAD folder (path from downloads below) and cleaned it up a little myself
 /Downloads/doi_10.5061_dryad.g8h71__v1/PCBIL_data_and_code/raw
+
+
 
 
 ## Identify 3 research questions:

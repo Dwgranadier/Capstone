@@ -1,0 +1,117 @@
+---
+title: "Capstone Question 1: What are most differentially expressed markers"
+author: "David Granadier"
+date: "12/10/2020"
+output: html_document
+---
+
+BRIEF INTRO: Objective here is to find which markers are most differentially expressed by IHC in the three most common diagnoses documented in the paper. In theory, this is something that could be helpful in differentiating clinical smaples that may not be distinguishable by standard pathology.
+
+Download necessary packages (may not use all of them)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#library(limma)
+#library(Glimma)
+#library(edgeR)
+devtools::install_github("jimhester/fstrings")
+#dir <- "/Users/dgranadi/Desktop/TCFB_2020/Capstone/data"
+
+```
+
+Read in the marker expression spreadsheet. Remove the patient identifier column and group by the clinical diagnosis then organize by man expression for each of the IHC tested surface proteins.
+```{r}
+#Havinf some trouble with setting relative paths...I think that the below will work but if it does not, I commented out the read in line that contains the specific file location below it and that will work.
+
+
+
+
+#setwd("/Users/dgranadi/Desktop/TCFB_2020/Capstone/")
+df <- read_csv("../data/marker_expression.csv")
+
+#df<- read_csv("/Users/dgranadi/Desktop/TCFB_2020/Capstone/data/marker_expression.csv")
+
+df 
+df_mean<-select(df, -pad) %>%
+  group_by(clin_diag) %>%
+  summarize_all(.funs = c(mean = "mean")) %>%
+  print()
+
+
+
+```
+Narrow down the above dataframe to only include the three most common diagnoses (Ductal pancreatic adenocarcinomas, Hepatocellular carcinomas, and Intrahepatic cholangiocarcinoma which will be referred to from here as DPA, HC, and IC, respectively).
+
+```{r}
+
+df_only3<-df_mean %>%
+  slice(3 , 5 , 6) %>%
+  print()
+ 
+```
+
+To find the difference in expression between markers calculate the ratio of the expression between diagnoses i.e. ck5 measurement for DPA divided by ck5 measurement for HC is the ratio of expression of ck5 between those diagnoses. The highest number ratio indicates the most over expressed marker for DPA relative to Diagnosis HC. 
+
+```{r}
+
+DPA_vs_HC <- (df_only3[1, -1] / df_only3[2, -1]) %>%
+  print()
+marker_DPA_vs_HC <- DPA_vs_HC[max.col(DPA_vs_HC)]
+print(marker_DPA_vs_HC)
+
+
+```
+
+## The marker most overexpressed in Ductal Pancreatic Adenocarcinoma relative to Hepatocellular Carcinoma is ca125 and it is expressed 7.94 times higher
+
+```{r}
+#Using the inverse of the DPA vs HC dataframe, find the marker most overexpressed in HC relative to DPA
+HC_vs_DPA <- (DPA_vs_HC ^-1 ) %>%
+  print()
+marker_HC_vs_DPA <- HC_vs_DPA[max.col(HC_vs_DPA)]
+print(marker_HC_vs_DPA)
+```
+
+## The marker most overexpressed in Hepatocellular Carcinoma relative to Ductal Pancreatic Adenocarcinoma is cd56 and it is expressed 3.83 times higher
+
+
+```{r}
+DPA_vs_IC <- (df_only3[1, -1] / df_only3[3, -1]) %>%
+  print()
+marker_DPA_vs_IC <- DPA_vs_IC[max.col(DPA_vs_IC)]
+print(marker_DPA_vs_IC)
+
+```
+
+## The marker most overexpressed in Ductal Pancreatic Adenocarcinoma relative to Intrahepatic Cholangiocarcinoma is muc2 and it is expressed 4.06 times higher
+
+```{r}
+#Using the inverse of the DPA vs IC dataframe, find the marker most overexpressed in IC relative to DPA
+IC_vs_DPA <- (DPA_vs_IC ^-1 ) %>%
+  print()
+marker_IC_vs_DPA <- IC_vs_DPA[max.col(IC_vs_DPA)]
+print(marker_IC_vs_DPA)
+```
+
+## The marker most overexpressed in Intrahepatic Cholangiocarcinoma relative to Ductal Pancreatic Adenocarcinoma is cd56 and it is expressed 10.4 times higher
+
+
+```{r}
+IC_vs_HC <- (df_only3[3, -1] / df_only3[2, -1]) %>%
+  print()
+marker_IC_vs_HC <- IC_vs_HC[max.col(IC_vs_HC)]
+print(marker_IC_vs_HC)
+```
+
+## The marker most overexpressed in Intrahepatic Cholangiocarcinoma relative to Hepatic Carcinoma is ck7 and it is expressed 7.73 times higher
+
+
+```{r}
+#Using the inverse of the DPA vs IC dataframe, find the marker most overexpressed in IC relative to DPA
+HC_vs_IC <- (IC_vs_HC ^-1 ) %>%
+  print()
+marker_HC_vs_IC <- HC_vs_IC[max.col(HC_vs_IC)]
+print(marker_HC_vs_IC)
+```
+
+## The marker most overexpressed in Hepatic Carcinoma relative to Intragepatic Cholangiocarcinoma is cd10 and it is expressed 1.42 times higher
