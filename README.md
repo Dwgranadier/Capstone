@@ -17,12 +17,12 @@ For the clinical data, I used the raw clinical data found in the DRYAD folder (p
 /Downloads/doi_10.5061_dryad.g8h71__v1/PCBIL_data_and_code/raw
 
 
-##Identify 3 research questions:
+## Identify 3 research questions:
 1. The three most commonly tested tumors were: Ductal Pancreatic Adenocarcinoma, Hepatocellular Carcinoma, and Intrahepatic cholangiocarcinoma. 
 What are the most differentially expressed surface markers between these three diagnoses?
 2. Similar to how it is performed in the paper, use machine learning clustering algorithms to determine which diagnoses are most closely related
 3. How many patients with each of the tumor diagnoses received chemotherapy?
 
-I answered question 1 in R (see Capstone_project.Rmd)
+I answered question 1 in R (see Capstone_project_Final_.Rmd) or just see html or pdf of knitted document 
 I answered questions 2 and 3 in python (see TCFB_2020.ipynb)
  
